@@ -1,10 +1,23 @@
 import React, { Component } from 'react';
-import { UncontrolledReactSVGPanZoom } from 'react-svg-pan-zoom';
 /* eslint-disable */
+import FooterGame from '../FooterGameInfo';
+import { UncontrolledReactSVGPanZoom } from 'react-svg-pan-zoom';
+
 class MapPage extends Component {
   constructor(props) {
     super(props);
     this.Viewer = null;
+    this.state = {
+      mapWidth: 0,
+      mapHeight: 0,
+    };
+  }
+
+  componentDidMount() {
+    this.setState({
+      mapWidth: window.visualViewport.width - 200,
+      mapHeight: window.visualViewport.height - 200,
+    });
   }
 
   _handlerMouseWheel = ev => {
@@ -12,6 +25,7 @@ class MapPage extends Component {
   };
 
   render() {
+    const { mapHeight, mapWidth } = this.state;
     const EVENTS_TO_MODIFY = [
       'touchstart',
       'touchmove',
@@ -65,10 +79,12 @@ class MapPage extends Component {
     };
     return (
       <div>
-        <UncontrolledReactSVGPanZoom
+        {/* <UncontrolledReactSVGPanZoom
           ref={Viewer => (this.Viewer = Viewer)}
-          width={1200}
-          height={800}
+          width={mapWidth}
+          height={mapHeight}
+          scaleFactorMax={2}
+          scaleFactorMin={0.1}
           tool={'auto'}
           detectAutoPan={false}
           toolbarProps={{ position: 'none' }}
@@ -440,7 +456,8 @@ class MapPage extends Component {
               />
             </g>
           </svg>
-        </UncontrolledReactSVGPanZoom>
+        </UncontrolledReactSVGPanZoom> */}
+        <FooterGame />
       </div>
     );
   }
