@@ -12,7 +12,8 @@ class PolygonLand extends Component {
   _handleClick = ev => {
     const { move, center } = this.props;
 
-    // const center = document.getElementById(this.props.id).getBBox();
+    const centerN = document.getElementById(this.props.id).getBBox();
+    console.log(centerN)
     move({ x: center.x, y: center.y });
   };
   render() {

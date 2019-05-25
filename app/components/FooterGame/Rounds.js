@@ -5,7 +5,7 @@ class Rounds extends Component {
   render() {
     return (
       <RoundesWrapper>
-        <Round />
+        <Round active />
         <Round />
         <Round />
         <Round />

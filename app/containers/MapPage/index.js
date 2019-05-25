@@ -7,13 +7,23 @@ import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import injectReducer from '../../utils/injectReducer';
 import reducer from './reducer';
+import scrollHelper from '../../helpers/ScrollHelper';
 import { makeSelectMapPage } from './selectors';
-import { moveSoldier } from './actions';
+import { moveSoldier, setCoordinates, showActionMenu } from './actions';
 import PolygonLand from '../../components/Lands/PolygonLand';
 import PathLand from '../../components/Lands/PathLand';
 import Solder from '../../components/Lands/Solder';
 import StaticMap from '../../components/Lands/StaticMap';
+import Knight from '../../components/Lands/Knight';
+import Catapult from '../../components/Lands/Catapult';
+import ActionMenu from '../../components/ActionMenu';
 import { LANDS_INFO_ARR } from './constants';
+import { MapWrapper } from '../../components/Lands/Wrappers';
+import Move from '../../components/Lands/Move';
+import Defence from '../../components/Lands/ActionDef';
+import Crown from '../../components/Lands/ActionCrown';
+import Torch from '../../components/Lands/ActionTorch';
+import Support from '../../components/Lands/ActionSupport';
 
 class MapPage extends Component {
   constructor(props) {
@@ -33,73 +43,41 @@ class MapPage extends Component {
   }
 
   _handleOnClick = ev => {
-    console.log(ev);
+    const { setCoordinates, mapPage, setShowActionMenu } = this.props;
+
+    if (mapPage.showActionMenu) {
+      setShowActionMenu(false);
+    } else {
+      setCoordinates({
+        x: ev.originalEvent.screenX,
+        y: ev.originalEvent.screenY,
+      });
+    }
   };
 
   render() {
     const { mapHeight, mapWidth } = this.state;
-    const { moveSoldier, coords } = this.props;
-    const { lanistars, starks, tirels, barateons } = coords;
-    const EVENTS_TO_MODIFY = [
-      'touchstart',
-      'touchmove',
-      'touchend',
-      'touchcancel',
-      'wheel',
-    ];
+    const { moveSoldier, mapPage, setShowActionMenu } = this.props;
+    const {
+      lanistars,
+      starks,
+      tirels,
+      barateons,
+      x,
+      y,
+      showActionMenu,
+    } = mapPage;
 
-    const originalAddEventListener = document.addEventListener.bind();
-    document.addEventListener = (type, listener, options, wantsUntrusted) => {
-      let modOptions = options;
-      if (EVENTS_TO_MODIFY.includes(type)) {
-        if (typeof options === 'boolean') {
-          modOptions = {
-            capture: options,
-            passive: false,
-          };
-        } else if (typeof options === 'object') {
-          modOptions = {
-            ...options,
-            passive: false,
-          };
-        }
-      }
-
-      return originalAddEventListener(
-        type,
-        listener,
-        modOptions,
-        wantsUntrusted,
-      );
-    };
-
-    const originalRemoveEventListener = document.removeEventListener.bind();
-    document.removeEventListener = (type, listener, options) => {
-      let modOptions = options;
-      if (EVENTS_TO_MODIFY.includes(type)) {
-        if (typeof options === 'boolean') {
-          modOptions = {
-            capture: options,
-            passive: false,
-          };
-        } else if (typeof options === 'object') {
-          modOptions = {
-            ...options,
-            passive: false,
-          };
-        }
-      }
-      return originalRemoveEventListener(type, listener, modOptions);
-    };
+    scrollHelper();
     return (
-      <div>
+      <MapWrapper style={{ position: 'relative' }}>
         <UncontrolledReactSVGPanZoom
           ref={Viewer => (this.Viewer = Viewer)}
           width={mapWidth}
-          height={mapHeight}
+          height={'67vh'}
           scaleFactorMax={2}
           scaleFactorMin={0.1}
-          onClick={this._handleOnClick}
+          onClick={ev => this._handleOnClick(ev)}
           tool={'auto'}
           detectAutoPan={false}
           toolbarProps={{ position: 'none' }}
@@ -410,6 +388,13 @@ class MapPage extends Component {
                   '1265.7,2007.6 1250,1999.7 1249,1989 1273,1984 1288.1,1977.5 1313,1965 1351,1916 1457,1915 1468,2173 1390,2173 1307,2114 '
                 }
               />
+              <Move x={1089} y={1775} text={1} />
+              <Defence x={-100} y={1365} text={1} />
+              <Crown x={268} y={2700} text={1} />
+              <Torch x={551} y={2705} text={1} />
+              <Support x={300} y={2597} text={1} />
+              <Knight x={304.60000610351562 - 144} y={473 + 15} />
+              <Catapult x={304.60000610351562} y={473} />
               {lanistars.soldiers.map(soldier => {
                 const targetLand = LANDS_INFO_ARR.find(
                   land => land.id === soldier.location,
@@ -431,7 +416,10 @@ class MapPage extends Component {
                   land => land.id === soldier.location,
                 );
                 return (
-                  <Solder x={targetLand.center.x + ind * 35} y={targetLand.center.y} />
+                  <Solder
+                    x={targetLand.center.x + ind * 35}
+                    y={targetLand.center.y}
+                  />
                 );
               })}
               {tirels.soldiers.map(soldier => {
@@ -445,19 +433,27 @@ class MapPage extends Component {
             </g>
           </svg>
         </UncontrolledReactSVGPanZoom>
-        {/* <FooterGame /> */}
-      </div>
+        <ActionMenu
+          left={x}
+          top={y}
+          showActionMenu={showActionMenu}
+          setShowActionMenu={setShowActionMenu}
+        />
+        <FooterGame />
+      </MapWrapper>
     );
   }
 }
 
 const mapStateToProps = createStructuredSelector({
-  coords: makeSelectMapPage(),
+  mapPage: makeSelectMapPage(),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
     moveSoldier: ev => dispatch(moveSoldier(ev)),
+    setCoordinates: ev => dispatch(setCoordinates(ev)),
+    setShowActionMenu: ev => dispatch(showActionMenu(ev)),
   };
 }
 const withConnect = connect(

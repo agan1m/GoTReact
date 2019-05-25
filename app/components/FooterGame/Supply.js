@@ -1,27 +1,24 @@
 import React, { Component } from 'react';
 import {
-  BarrelList,
   BarrelListItem,
   FlagsList,
   FlagItem,
   FlagLine,
   FlagCount,
+  Barell,
+  SuplyWrapper,
 } from './Wrappers';
 /* eslint-disable */
 class Supply extends Component {
   render() {
     return (
-      <div>
-        <BarrelList>
-          <BarrelListItem />
-          <BarrelListItem />
-          <BarrelListItem />
-          <BarrelListItem />
-          <BarrelListItem />
-          <BarrelListItem />
-        </BarrelList>
+      <SuplyWrapper>
         <FlagsList>
           <FlagLine>
+            <BarrelListItem>
+              <p className="barrel-count">0</p>
+              <Barell />
+            </BarrelListItem>
             <FlagItem>
               <FlagCount>2</FlagCount>
             </FlagItem>
@@ -30,6 +27,10 @@ class Supply extends Component {
             </FlagItem>
           </FlagLine>
           <FlagLine>
+            <BarrelListItem>
+              <p className="barrel-count">1</p>
+              <Barell />
+            </BarrelListItem>
             <FlagItem>
               <FlagCount>3</FlagCount>
             </FlagItem>
@@ -38,34 +39,10 @@ class Supply extends Component {
             </FlagItem>
           </FlagLine>
           <FlagLine>
-            <FlagItem>
-              <FlagCount>3</FlagCount>
-            </FlagItem>
-            <FlagItem>
-              <FlagCount>2</FlagCount>
-            </FlagItem>
-            <FlagItem>
-              <FlagCount>2</FlagCount>
-            </FlagItem>
-          </FlagLine>
-          <FlagLine>
-            <FlagItem>
-              <FlagCount>3</FlagCount>
-            </FlagItem>
-            <FlagItem>
-              <FlagCount>2</FlagCount>
-            </FlagItem>
-            <FlagItem>
-              <FlagCount>2</FlagCount>
-            </FlagItem>
-            <FlagItem>
-              <FlagCount>2</FlagCount>
-            </FlagItem>
-          </FlagLine>
-          <FlagLine>
-            <FlagItem>
-              <FlagCount>3</FlagCount>
-            </FlagItem>
+            <BarrelListItem>
+              <p className="barrel-count">2</p>
+              <Barell />
+            </BarrelListItem>
             <FlagItem>
               <FlagCount>3</FlagCount>
             </FlagItem>
@@ -77,20 +54,82 @@ class Supply extends Component {
             </FlagItem>
           </FlagLine>
           <FlagLine>
-            <FlagItem />
-            <FlagItem />
-            <FlagItem />
-            <FlagItem />
+            <BarrelListItem>
+              <p className="barrel-count">3</p>
+              <Barell />
+            </BarrelListItem>
+            <FlagItem>
+              <FlagCount>3</FlagCount>
+            </FlagItem>
+            <FlagItem>
+              <FlagCount>2</FlagCount>
+            </FlagItem>
+            <FlagItem>
+              <FlagCount>2</FlagCount>
+            </FlagItem>
+            <FlagItem>
+              <FlagCount>2</FlagCount>
+            </FlagItem>
           </FlagLine>
           <FlagLine>
-            <FlagItem />
-            <FlagItem />
-            <FlagItem />
-            <FlagItem />
-            <FlagItem />
+            <BarrelListItem>
+              <p className="barrel-count">4</p>
+              <Barell />
+            </BarrelListItem>
+            <FlagItem>
+              <FlagCount>3</FlagCount>
+            </FlagItem>
+            <FlagItem>
+              <FlagCount>3</FlagCount>
+            </FlagItem>
+            <FlagItem>
+              <FlagCount>2</FlagCount>
+            </FlagItem>
+            <FlagItem>
+              <FlagCount>2</FlagCount>
+            </FlagItem>
+          </FlagLine>
+          <FlagLine>
+            <BarrelListItem>
+              <p className="barrel-count">5</p>
+              <Barell />
+            </BarrelListItem>
+            <FlagItem>
+              <FlagCount>4</FlagCount>
+            </FlagItem>
+            <FlagItem>
+              <FlagCount>3</FlagCount>
+            </FlagItem>
+            <FlagItem>
+              <FlagCount>2</FlagCount>
+            </FlagItem>
+            <FlagItem>
+              <FlagCount>2</FlagCount>
+            </FlagItem>
+          </FlagLine>
+          <FlagLine>
+            <BarrelListItem>
+              <p className="barrel-count">6</p>
+              <Barell />
+            </BarrelListItem>
+            <FlagItem>
+              <FlagCount>4</FlagCount>
+            </FlagItem>
+            <FlagItem>
+              <FlagCount>3</FlagCount>
+            </FlagItem>
+            <FlagItem>
+              <FlagCount>2</FlagCount>
+            </FlagItem>
+            <FlagItem>
+              <FlagCount>2</FlagCount>
+            </FlagItem>
+            <FlagItem>
+              <FlagCount>2</FlagCount>
+            </FlagItem>
           </FlagLine>
         </FlagsList>
-      </div>
+      </SuplyWrapper>
     );
   }
 }
